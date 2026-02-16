@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface QuizProps {
   role: 'mentor' | 'mentee';
+  menteeName?: string;
   onBack: () => void;
 }
 
@@ -943,7 +944,7 @@ function ListItem({ children, icon = '→', color = C.textDim }: { children: Rea
 // 메인 Quiz 컴포넌트
 // ═══════════════════════════════════════════════════════════
 
-export default function Quiz({ role, onBack }: QuizProps) {
+export default function Quiz({ role, menteeName, onBack }: QuizProps) {
   const [phase, setPhase] = useState<'intro' | 'quiz' | 'result'>('intro');
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<Record<number, -1 | 0 | 1>>({});
@@ -963,7 +964,7 @@ export default function Quiz({ role, onBack }: QuizProps) {
     try {
       await fetch('/api/submit', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, quizType: role, typeCode, typeTitle,
+        body: JSON.stringify({ sessionId, quizType: role, menteeName: menteeName || '', typeCode, typeTitle,
           scores: { learning: scores[0], speed: scores[1], motivation: scores[2], problem: scores[3], growth: scores[4] },
           answers: answerList, completedAt: new Date().toISOString(), duration: Math.floor((Date.now() - startTime) / 1000),
         }),
@@ -1011,6 +1012,11 @@ export default function Quiz({ role, onBack }: QuizProps) {
         <div style={{ maxWidth: 540, width: '100%', textAlign: 'center', animation: 'fadeIn 0.6s ease' }}>
           <button onClick={onBack} style={{ background: 'none', border: 'none', color: C.textDim, fontSize: 13, cursor: 'pointer', marginBottom: 24 }}>← 다른 버전 선택</button>
           <div style={{ fontSize: 64, marginBottom: 16 }}>{role === 'mentor' ? '👨‍🏫' : '🎓'}</div>
+          {role === 'mentee' && menteeName && (
+            <p style={{ color: C.accent, fontSize: 16, fontWeight: 600, margin: '0 0 8px' }}>
+              {menteeName}님, 반갑습니다! 👋
+            </p>
+          )}
           <h1 style={{ fontSize: 28, fontWeight: 800, margin: '0 0 8px', background: `linear-gradient(135deg, ${role === 'mentor' ? C.accent3 : C.accent}, ${C.accent2})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', lineHeight: 1.3 }}>{role === 'mentor' ? '멘티 유형 진단' : '학습 DNA 진단'}</h1>
           <p style={{ color: C.textDim, fontSize: 14, margin: '0 0 4px' }}>32가지 유형으로 알아보는 {role === 'mentor' ? '멘티 맞춤 지도법' : '나만의 학습 스타일'}</p>
           <p style={{ color: C.textMute, fontSize: 12, margin: '0 0 24px' }}>3단계 선택지로 더 정밀한 진단</p>
@@ -1054,6 +1060,11 @@ export default function Quiz({ role, onBack }: QuizProps) {
         <div style={{ maxWidth: 600, width: '100%', animation: 'fadeIn 0.6s ease' }}>
           <div style={{ background: `linear-gradient(150deg, #111140 0%, #1a1050 50%, #0d0d2a 100%)`, borderRadius: 24, padding: '40px 24px 32px', textAlign: 'center', border: `1px solid ${C.cardBorder}`, marginBottom: 8, position: 'relative', overflow: 'hidden' }}>
             {submitting && <div style={{ position: 'absolute', top: 12, right: 12, fontSize: 10, color: C.textMute, display: 'flex', alignItems: 'center', gap: 6 }}><span style={{ animation: 'pulse 1s infinite' }}>●</span> 저장 중...</div>}
+            {role === 'mentee' && menteeName && (
+              <p style={{ color: C.accent2, fontSize: 14, fontWeight: 600, margin: '0 0 12px' }}>
+                {menteeName}님의 학습 유형
+              </p>
+            )}
             <div style={{ fontSize: 60, marginBottom: 14 }}>{result.emoji}</div>
             <div style={{ display: 'inline-block', padding: '5px 20px', background: `${C.accent}20`, borderRadius: 20, fontSize: 15, fontWeight: 800, color: C.accent, letterSpacing: 4, marginBottom: 14 }}>{result.code}</div>
             <h2 style={{ fontSize: 28, fontWeight: 800, margin: '8px 0 18px', background: 'linear-gradient(135deg, #fff, #b8b8dd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{result.title}</h2>

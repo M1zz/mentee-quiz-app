@@ -7,6 +7,7 @@ const notion = new Client({
 export interface QuizResult {
   sessionId: string;
   quizType: 'mentor' | 'mentee';
+  menteeName: string;
   typeCode: string;
   typeTitle: string;
   scores: {
@@ -40,9 +41,13 @@ export async function saveQuizResult(result: QuizResult) {
   const response = await notion.pages.create({
     parent: { database_id: databaseId },
     properties: {
-      // Title: Session ID
+      // Title: Session ID (고유 식별자)
       'Session ID': {
         title: [{ text: { content: result.sessionId } }],
+      },
+      // Rich Text: Mentee Name
+      'Name': {
+        rich_text: [{ text: { content: result.menteeName || '' } }],
       },
       // Select: Quiz Type
       'Quiz Type': {
@@ -96,7 +101,8 @@ Notion 데이터베이스에 다음 속성들을 만드세요:
 
 | 속성 이름 | 타입 | 설명 |
 |----------|------|------|
-| Session ID | Title (제목) | 익명 세션 ID |
+| Session ID | Title (제목) | 고유 식별자 (UUID) |
+| Name | Text | 멘티 이름 |
 | Quiz Type | Select | 멘토용 / 멘티용 |
 | Type Code | Text | 예: TFIAD |
 | Type Title | Text | 예: 심층 연구자 |
