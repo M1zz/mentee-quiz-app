@@ -1319,6 +1319,10 @@ export default function Quiz({ role, menteeName, onBack }: QuizProps) {
               style={{ width: '100%', padding: '16px', fontSize: 15, fontWeight: 600, color: '#fff', background: `linear-gradient(135deg, ${C.accent}, #7c3aed)`, border: 'none', borderRadius: 14, cursor: 'pointer', marginBottom: 10 }}>
               다시 진단하기
             </button>
+            <a href="/types"
+              style={{ display: 'block', width: '100%', padding: '14px', fontSize: 14, fontWeight: 600, color: C.accent, background: `${C.accent}12`, border: `1px solid ${C.accent}40`, borderRadius: 14, cursor: 'pointer', marginBottom: 10, textAlign: 'center', textDecoration: 'none', boxSizing: 'border-box' }}>
+              📖 32가지 유형 전체 보기
+            </a>
             <button onClick={onBack}
               style={{ width: '100%', padding: '14px', fontSize: 14, fontWeight: 500, color: C.textDim, background: 'transparent', border: `1px solid ${C.cardBorder}`, borderRadius: 14, cursor: 'pointer' }}>
               ← 처음으로

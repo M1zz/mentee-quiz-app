@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import Quiz from '@/components/Quiz';
 
 const MENTOR_PASSWORD = 'mentor2024'; // 멘토용 비밀번호 (환경변수로 옮길 수 있음)
@@ -428,6 +429,27 @@ export default function Home() {
         <p style={{ fontSize: 11, color: '#555566', marginTop: 16 }}>
           15개 질문 · 약 3분 소요
         </p>
+
+        <Link href="/types" style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 6,
+          marginTop: 16,
+          padding: '10px 18px',
+          fontSize: 13,
+          fontWeight: 600,
+          color: '#8888aa',
+          background: '#111127',
+          border: '1px solid #1c1c3a',
+          borderRadius: 10,
+          textDecoration: 'none',
+          transition: 'border-color 0.2s, color 0.2s',
+        }}
+          onMouseOver={e => { (e.currentTarget as HTMLElement).style.borderColor = '#6366f160'; (e.currentTarget as HTMLElement).style.color = '#e0e0f0'; }}
+          onMouseOut={e => { (e.currentTarget as HTMLElement).style.borderColor = '#1c1c3a'; (e.currentTarget as HTMLElement).style.color = '#8888aa'; }}
+        >
+          📖 32가지 유형 전체 보기
+        </Link>
       </div>
     </div>
   );
