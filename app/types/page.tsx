@@ -392,7 +392,110 @@ export default function TypesPage() {
             ))}
           </div>
         )}
+
+        {/* Research basis */}
+        <ResearchBasis />
       </div>
+    </div>
+  );
+}
+
+function ResearchBasis() {
+  const [open, setOpen] = useState(false);
+
+  const refs = [
+    {
+      dim: '학습방식 (T ↔ P)',
+      dimColor: '#6366f1',
+      items: [
+        { label: 'Kolb, D. A. (1984)', desc: '경험학습 이론 — 학습자가 추상적 개념화(이론)와 구체적 경험(실전) 중 어느 쪽으로 지식을 습득하는지 구분', source: 'Prentice-Hall' },
+        { label: 'Honey & Mumford (1986)', desc: 'Kolb 이론을 확장한 학습 스타일 질문지 — Theorist(이론가) vs Pragmatist(실용가)로 직접 매핑', source: 'The Manual of Learning Styles' },
+      ],
+    },
+    {
+      dim: '진행속도 (F ↔ S)',
+      dimColor: '#ef4444',
+      items: [
+        { label: 'Bloom, B. S. (1968)', desc: '완전학습 이론 — 학습자가 다음 단계로 넘어가기 전 80–90% 숙달 기준에 도달하는 데 필요한 시간이 개인마다 다름', source: 'Evaluation Comment, 1(2)' },
+        { label: 'Carroll, J. B. (1963)', desc: '학습 모델 — 적성을 "학습에 필요한 시간"으로 재정의. 완전학습을 위해 필요 시간만큼 투자하는 유형(S)과 80% 수준에서 진도를 높이는 유형(F)의 이론적 근거', source: 'Teachers College Record, 64' },
+      ],
+    },
+    {
+      dim: '동기부여 (I ↔ E)',
+      dimColor: '#8b5cf6',
+      items: [
+        { label: 'Deci & Ryan (1985 / 2000)', desc: '자기결정이론(SDT) — 내적 동기(호기심·즐거움)와 외적 동기(보상·인정)를 학문적으로 정의한 가장 많이 인용되는 동기 이론(5만 회+ 인용)', source: 'American Psychologist, 55(1)' },
+        { label: 'Ryan & Deci (2000)', desc: '외적 보상이 내적 동기를 오히려 저하시킬 수 있다는 "구축 효과"를 실증', source: 'Contemporary Educational Psychology, 25(1)' },
+      ],
+    },
+    {
+      dim: '문제해결 (A ↔ C)',
+      dimColor: '#0ea5e9',
+      items: [
+        { label: 'Johnson & Johnson (1989 / 2009)', desc: '사회적 상호의존 이론 — 1,200건 이상의 연구로 협력적 학습(C)과 개인 독립 학습(A) 간 차이를 체계화', source: 'Educational Researcher, 38(5)' },
+        { label: 'Witkin et al. (1977)', desc: '장 독립성-의존성(Field Independence) — 독립적으로 문제를 해결하는 유형(A)과 사회적 맥락에 의존하는 유형(C)의 인지 스타일 연구', source: 'Review of Educational Research, 47(1)' },
+      ],
+    },
+    {
+      dim: '성장방향 (D ↔ W)',
+      dimColor: '#14b8a6',
+      items: [
+        { label: 'Ericsson, Krampe & Tesch-Römer (1993)', desc: '의도적 수련(Deliberate Practice) — 한 분야의 전문성은 집중된 반복 수련으로만 형성된다는 실증 연구. 전문가(D) 성향의 학문적 근거 (1만 1천 회+ 인용)', source: 'Psychological Review, 100(3)' },
+        { label: 'Guest (1991) / Brown (2010)', desc: 'T자형 인재 모델 — 하나의 분야를 깊이 파는 전문성(세로축)과 다양한 분야에 걸친 넓은 이해(가로축)를 동시에 가진 인재상으로 개발자 커리어 논의에 가장 널리 쓰임', source: 'The Independent / IDEO' },
+      ],
+    },
+  ];
+
+  return (
+    <div style={{ marginTop: 48, borderTop: `1px solid ${C.cardBorder}`, paddingTop: 24 }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          padding: 0,
+          marginBottom: open ? 20 : 0,
+        }}
+      >
+        <span style={{ fontSize: 12, color: C.textMute }}>📎</span>
+        <span style={{ fontSize: 12, color: C.textMute, fontWeight: 600 }}>연구 기반 — 이 유형 분류는 추측이 아닙니다</span>
+        <span style={{ fontSize: 10, color: C.textMute, marginLeft: 2 }}>{open ? '▲' : '▼'}</span>
+      </button>
+
+      {open && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <p style={{ fontSize: 11, color: C.textMute, lineHeight: 1.7, margin: '0 0 4px' }}>
+            5가지 차원은 각각 교육심리학 및 인지과학 분야의 독립적인 연구 전통에 기반합니다.
+          </p>
+          {refs.map((r) => (
+            <div key={r.dim} style={{
+              background: C.card,
+              border: `1px solid ${C.cardBorder}`,
+              borderLeft: `3px solid ${r.dimColor}`,
+              borderRadius: '0 12px 12px 0',
+              padding: '12px 14px',
+            }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: r.dimColor, marginBottom: 8 }}>{r.dim}</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {r.items.map((item, i) => (
+                  <div key={i}>
+                    <div style={{ fontSize: 11, fontWeight: 600, color: C.textDim, marginBottom: 2 }}>{item.label}</div>
+                    <div style={{ fontSize: 11, color: C.textMute, lineHeight: 1.6 }}>{item.desc}</div>
+                    <div style={{ fontSize: 10, color: C.textMute, marginTop: 2, opacity: 0.7 }}>— {item.source}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+          <p style={{ fontSize: 10, color: C.textMute, lineHeight: 1.6, margin: '4px 0 0' }}>
+            * 이 진단 도구는 위 연구들의 구성 개념을 개발자 학습 맥락에 맞게 재구성한 것으로, 원 연구들의 공식 검사 도구가 아닙니다.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
